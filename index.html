@@ -72,7 +72,7 @@ select option{background:#fff;color:var(--text-dark)}
 .seat.selected{background:linear-gradient(135deg,var(--pink-300),var(--pink-400));border-color:var(--pink-400);color:white;box-shadow:0 4px 16px rgba(255,77,153,.35);transform:scale(1.04)}
 .seat.taken{background:var(--pink-100);border-color:var(--pink-100);cursor:not-allowed;opacity:.45}
 .seat.taken::after{content:'';display:none}
-.seat.taken .seat-num{font-size:.6rem;font-weight:400;opacity:.55}
+.seat.taken .seat-num{font-size:.72rem;font-weight:600;color:var(--text-mid);opacity:1}
 .seat.taken .seat-name{color:var(--pink-500);font-weight:500}
 .seat.steril{background:#f0f0f5;border-color:#ccc;cursor:not-allowed;opacity:.5}
 .seat-num{font-size:.72rem;font-weight:600;line-height:1}
@@ -341,7 +341,7 @@ select option{background:#fff;color:var(--text-dark)}
     el.appendChild(numEl);
     if (isTaken) {
       var nameEl = document.createElement('div');
-      nameEl.style.cssText = 'font-size:.6rem;font-weight:500;color:var(--pink-500);margin-top:2px;max-width:44px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:center;line-height:1.2';
+      nameEl.style.cssText = 'font-size:.72rem;font-weight:600;color:var(--text-mid);margin-top:1px;max-width:44px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:center;line-height:1.2';
       nameEl.textContent = takenSeats[num].split(' ')[0]; // cukup nama pertama
       el.appendChild(nameEl);
     }
