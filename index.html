@@ -70,13 +70,12 @@ select option{background:#fff;color:var(--text-dark)}
 .seat{width:46px;height:46px;border-radius:10px;border:2px solid var(--pink-200);background:var(--pink-50);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:600;color:var(--text-mid);user-select:none;position:relative;flex-shrink:0}
 .seat:hover:not(.taken):not(.selected):not(.steril){background:var(--pink-100);border-color:var(--pink-300);transform:scale(1.06);box-shadow:0 4px 12px rgba(255,77,153,.2)}
 .seat.selected{background:linear-gradient(135deg,var(--pink-300),var(--pink-400));border-color:var(--pink-400);color:white;box-shadow:0 4px 16px rgba(255,77,153,.35);transform:scale(1.04)}
-.seat.taken{background:var(--pink-100);border-color:var(--pink-100);cursor:not-allowed;opacity:.45}
-.seat.taken::after{content:'';display:none}
-.seat.taken .seat-num{font-size:.72rem;font-weight:600;color:var(--text-mid);opacity:1}
-.seat.taken .seat-name{color:var(--pink-500);font-weight:500}
+.seat.taken{background:var(--pink-100);border-color:var(--pink-100);cursor:not-allowed;opacity:.85}
+.seat.taken .seat-num{font-size:.6rem;font-weight:500;color:var(--text-mid);opacity:.7;line-height:1}
+.seat.taken .seat-name{font-size:.72rem;font-weight:500;color:var(--text-mid)}
 .seat.steril{background:#f0f0f5;border-color:#ccc;cursor:not-allowed;opacity:.5}
 .seat-num{font-size:.72rem;font-weight:600;line-height:1}
-.seat-empty{width:46px;height:46px;flex-shrink:0;visibility:hidden}
+.seat-empty{width:46px;height:54px;flex-shrink:0;visibility:hidden}
 .seat-legend{display:flex;gap:1.2rem;justify-content:center;margin-top:1.2rem;flex-wrap:wrap}
 .legend-item{display:flex;align-items:center;gap:.4rem;font-size:.76rem;color:var(--text-soft)}
 .legend-dot{width:14px;height:14px;border-radius:4px;border:2px solid;flex-shrink:0}
@@ -118,8 +117,8 @@ select option{background:#fff;color:var(--text-dark)}
   .card{padding:1.5rem}
   h1{font-size:1.65rem}
   .bus-card{padding:1rem}
-  .seat{width:36px;height:36px;font-size:.6rem}
-  .seat-empty{width:36px;height:36px}
+  .seat{width:36px;height:44px;font-size:.6rem}
+  .seat-empty{width:36px;height:44px}
   .bus-aisle{width:12px}
   .seat-row{gap:5px}
 }
@@ -432,7 +431,7 @@ select option{background:#fff;color:var(--text-dark)}
     if (btn) { btn.disabled = true; btn.textContent = 'Mengecek...'; }
 
     // Cek ulang apakah kursi masih tersedia
-    if (takenSeats.indexOf(selectedSeat) !== -1) {
+    if (takenSeats[selectedSeat] !== undefined) {
       if (btn) { btn.disabled = false; btn.textContent = 'Selesai'; }
       alert('Waduh! Kursi ' + selectedSeat + ' baru saja dipilih orang lain. Silakan pilih kursi lain ya!');
       selectedSeat = null;
