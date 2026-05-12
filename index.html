@@ -71,7 +71,7 @@ select option{background:#fff;color:var(--text-dark)}
 .seat:hover:not(.taken):not(.selected):not(.steril){background:var(--pink-100);border-color:var(--pink-300);transform:scale(1.06);box-shadow:0 4px 12px rgba(255,77,153,.2)}
 .seat.selected{background:linear-gradient(135deg,var(--pink-300),var(--pink-400));border-color:var(--pink-400);color:white;box-shadow:0 4px 16px rgba(255,77,153,.35);transform:scale(1.04)}
 .seat.taken{background:var(--pink-100);border-color:var(--pink-100);cursor:not-allowed;opacity:.45}
-.seat.taken::after{content:'x';color:var(--text-soft);font-size:.7rem;position:absolute}
+.seat.taken::after{content:'';display:none}
 .seat.taken .seat-num{opacity:0}
 .seat.steril{background:#f0f0f5;border-color:#ccc;cursor:not-allowed;opacity:.5}
 .seat-num{font-size:.72rem;font-weight:600;line-height:1}
@@ -295,8 +295,9 @@ select option{background:#fff;color:var(--text-dark)}
   var STERIL_SEATS = [1, 2, 3, 4, 5, 21, 22, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59];
   var userData = { name: '', dept: '' };
   var selectedSeat = null;
-  var takenSeats = [];
+  var takenSeats = {};
 
+  
   // Bus layout
   var BUS_ROWS = [
     { left: [1,2],    right: [3,4,5],    leftDoor: 'PINTU DEPAN' },
@@ -316,15 +317,17 @@ select option{background:#fff;color:var(--text-dark)}
   // Firebase realtime listener - update semua device otomatis
   seatsRef.on('value', function(snapshot) {
     var data = snapshot.val() || {};
-    takenSeats = Object.values(data).map(function(d) {
-      return parseInt(d.kursi);
-    }).filter(function(n) { return !isNaN(n); });
+    takenSeats = {};
+    Object.values(data).forEach(function(d) {
+      var num = parseInt(d.kursi);
+      if (!isNaN(num)) takenSeats[num] = d.nama || '?';
+    });
     renderLayout();
   });
 
   function makeSeat(num) {
     var isSteril = STERIL_SEATS.indexOf(num) !== -1;
-    var isTaken  = takenSeats.indexOf(num) !== -1;
+    var isTaken  = takenSeats[num] !== undefined;
     var isSel    = selectedSeat === num;
     var el = document.createElement('div');
     el.className = 'seat';
@@ -335,6 +338,12 @@ select option{background:#fff;color:var(--text-dark)}
     numEl.className = 'seat-num';
     numEl.textContent = num;
     el.appendChild(numEl);
+    if (isTaken) {
+      var nameEl = document.createElement('div');
+      nameEl.style.cssText = 'font-size:.45rem;font-weight:500;color:var(--text-soft);position:absolute;bottom:3px;left:0;right:0;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 2px;line-height:1';
+      nameEl.textContent = takenSeats[num].split(' ')[0]; // cukup nama pertama
+      el.appendChild(nameEl);
+    }
     if (!isSteril && !isTaken) {
       el.addEventListener('click', function() {
         selectedSeat = num;
